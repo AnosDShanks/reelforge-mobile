@@ -1,29 +1,19 @@
-# REELFORGE Mobile V1
+# REELFORGE Mobile V1.1
 
-A free, static, mobile-first creator workspace. No paid API, backend, or account required.
+Free, static, mobile-first creator studio. No paid APIs or server.
 
-## Features that actually work
-- Template-based (not AI) narration draft based on topic and category
-- Editable script and storyboard scenes
-- Timed vertical storyboard preview with four color themes
-- iPhone browser text-to-speech playback (availability depends on browser/device)
-- Save/load projects in browser localStorage
-- Export script TXT and portable project JSON; import JSON
-- Offline cache after first successful visit on HTTPS (service worker)
+## Installation / updating GitHub Pages
+Upload all five files (`index.html`, `sw.js`, `manifest.webmanifest`, `icon.svg`, `README.md`) **individually** into the **root** of your existing public `reelforge-mobile` repository, replacing the old versions. Commit to `main`. Keep Settings → Pages set to `Deploy from a branch`, `main`, `/(root)`. Open your GitHub Pages URL in Safari and reload; if the old version persists, close and reopen the Home Screen app or clear website data after exporting project backups.
 
-## Not included yet
-- Generative AI scripts, generated images, speech audio files, automatic captions from audio, MP4 video rendering, or automatic social publishing.
-- The storyboard is NOT a downloadable video. Free stock footage is not automatically fetched.
+## V1.1 features
+- Template-based script drafting, scene editing, storyboard preview, device speech playback, local project saves, JSON/TXT export/import.
+- Add your own photos to individual scenes (compressed on device).
+- Export a PNG image of the selected scene.
+- **Experimental** silent vertical video export through browser `canvas.captureStream` + `MediaRecorder`, with file format selected from actual browser support. Some iPhones/Safari versions cannot record a canvas stream, or may produce WEBM instead of MP4. No guarantee of MP4 on iPhone. Video output has **no narration audio**, even if speech playback works. Rendering runs in real time; keep the screen active.
+- Export size choices 540×960, 720×1280, 1080×1920; start at 540p.
 
-## Publish for free using GitHub Pages
-1. Create a free GitHub account and a public repository named `reelforge-mobile`.
-2. Upload the **contents** of this folder (index.html, manifest.webmanifest, icon.svg, sw.js) to the repository root.
-3. In repository Settings → Pages, choose **Deploy from a branch**, branch **main**, folder **/(root)**, and save.
-4. Wait for GitHub Pages to show the live HTTPS address, usually `https://YOUR_USERNAME.github.io/reelforge-mobile/`.
-5. Open that live address in Safari on iPhone. Tap Share → Add to Home Screen → Add.
-6. Create a test project and use Export project JSON as a backup.
-
-GitHub Pages requires a public repository on GitHub Free. Do not upload private information or client assets to a public repository. The app itself keeps saved projects locally on the device, not in the repository.
+## Limitations and data safety
+Projects live in browser localStorage and can disappear when browser data is cleared. Uploaded images are embedded as compressed data URLs in project JSON, so storage limits may be reached; use Export JSON for backup. Public GitHub repositories must not contain private client files. No AI models, automatic image retrieval, background jobs, cloud rendering, music, captions synchronized to words, or publishing integrations.
 
 ## Later Windows/HP migration
-The portable JSON project schema includes `version`, `topic`, `niche`, `duration`, `style`, `script`, `projectName`, and `scenes` with `heading`/`caption`. A future Python/FastAPI + FFmpeg worker can ingest exported JSON without changing the mobile UI design. Local generation can be connected later over an authenticated HTTPS API.
+Export JSON with fields `version`, `topic`, `niche`, `duration`, `style`, `script`, `projectName`, `scenes` (`heading`, `caption`, optional `image` data URL). A future Python/FastAPI + FFmpeg backend can consume the same JSON and provide proper MP4, voiceovers and batch processing.
